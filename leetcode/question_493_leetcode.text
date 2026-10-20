@@ -1,0 +1,75 @@
+class Solution {
+    int count = 0;
+    void mearge(vector<int>& nums, int low, int high, int mid) {
+        int l = low, r = mid + 1;
+        vector<int> temp;
+        while (l <= mid && r <= high) {
+            if (nums[l] > 2 * nums[r]) {
+                count += mid - l + 1;
+                if (nums[l] > nums[r]) {
+                    temp.push_back(nums[r++]);
+                } else {
+                    temp.push_back(nums[l++]);
+                }
+
+            } else if (nums[l] > nums[r]) {
+                temp.push_back(nums[r++]);
+            } else {
+                temp.push_back(nums[l++]);
+            }
+            return ;
+        }
+        while (l <= mid) {
+            temp.push_back(nums[l++]);
+        }
+        while (r <= high) {
+            temp.push_back(nums[r++]);
+        }
+        for (int i = 0; i < temp.size(); i++) {
+            nums[low++] = temp[i];
+        }
+        return;
+    }
+    void meargeSort(vector < int > &nums, int low, int high) {
+        if(low>=high)return ;
+        int mid = low + (high - low) / 2;
+
+        meargeSort(nums, low, mid);
+        meargeSort(nums, mid + 1, high);
+        mearge(nums, low, high, mid);
+        return;
+    }
+
+public:
+    int reversePairs(vector<int>& nums) {
+        count = 0;
+        // using mearge sort
+        meargeSort(nums, 0, nums.size() - 1);
+        return count;
+    }
+}; ///////
+
+
+3165 question number
+class Solution {
+public:
+    vector<int> smallerNumbersThanCurrent(vector<int>& nums) {
+        map<int,pair<int ,int > >mpp;
+        for(int it : nums){
+            mpp[it]++;
+        }
+        vector < pair<int ,int > > temp;
+        int count =0;
+        for(auto & it:mpp){
+            it.second.second=(count);
+            //temp.back()[1]=mpp.first;
+            count+=it.second;
+        }
+        for(int it : nums){
+            it = mpp[it].second;
+        }
+        return nums;
+
+
+    }
+};
